@@ -69,23 +69,33 @@
                     (remove-exec . t))))
   "Run configurations.")
 
+(defun atcoder-tools--normalize-mode (mode)
+  "Return mode without -ts-."
+  (pcase mode
+    ('c-ts-mode 'c-mode)
+    ('c++-ts-mode 'c++-mode)
+    ('rust-ts-mode 'rust-mode)
+    (_ mode))
+  )
+
 (defun atcoder-tools--run-config-for-mode (mode)
   "Return an alist of run configuration for MODE."
-  (alist-get
-   (pcase mode
-     ('c-mode (pcase atcoder-tools-c-compiler
-                ('gcc 'c-gcc)
-                ('clang 'c-clang)
-                (_ (error "Invalid atcoder-tools-c-compiler value: %S"
-                          atcoder-tools-c-compiler))))
-     ('c++-mode (pcase atcoder-tools-c++-compiler
-                  ('gcc 'c++-gcc)
-                  ('clang 'c++-clang)
-                  (_ (error "Invalid atcoder-tools-c++-compiler value: %S"
-                            atcoder-tools-c++-compiler))))
-     ('rust-mode (if atcoder-tools-rust-use-rustup 'rust-rustup 'rust-rustc))
-     (_ (error "No run configuration found for %S" mode)))
-   atcoder-tools--run-config-alist))
+  (let ((mode (atcoder-tools--normalize-mode mode)))
+    (alist-get
+     (pcase mode
+       ('c-mode (pcase atcoder-tools-c-compiler
+                  ('gcc 'c-gcc)
+                  ('clang 'c-clang)
+                  (_ (error "Invalid atcoder-tools-c-compiler value: %S"
+                            atcoder-tools-c-compiler))))
+       ('c++-mode (pcase atcoder-tools-c++-compiler
+                    ('gcc 'c++-gcc)
+                    ('clang 'c++-clang)
+                    (_ (error "Invalid atcoder-tools-c++-compiler value: %S"
+                              atcoder-tools-c++-compiler))))
+       ('rust-mode (if atcoder-tools-rust-use-rustup 'rust-rustup 'rust-rustc))
+       (_ (error "No run configuration found for %S" mode)))
+     atcoder-tools--run-config-alist)))
 
 (defun atcoder-tools--expand-cmd-templates (cmd-templates working-directory src-file-name exec-file-name)
   "Expand each command in CMD-TEMPLATES, a list of command templates.
