@@ -38,16 +38,19 @@
 
 (defcustom atcoder-tools-c-compiler 'gcc
   "The compiler to use to compile C code. Possible values are `gcc' and `clang'."
+  :group 'atcoder-tools
   :type '(choice (const gcc)
                  (const clang)))
 
 (defcustom atcoder-tools-c++-compiler 'gcc
   "The compiler to use to compile C++ code. Possible values are `gcc' and `clang'."
+  :group 'atcoder-tools
   :type '(choice (const gcc)
                  (const clang)))
 
 (defcustom atcoder-tools-rust-use-rustup t
   "If non-nil, Rustup is used to compile Rust code."
+  :group 'atcoder-tools
   :type 'bool)
 
 
