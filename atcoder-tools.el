@@ -78,7 +78,7 @@
                 ('clang 'c-clang)
                 (_ (error "Invalid atcoder-tools-c-compiler value: %S"
                           atcoder-tools-c-compiler))))
-     ('c++-mode (pcase atcoder-tools-c-compiler
+     ('c++-mode (pcase atcoder-tools-c++-compiler
                   ('gcc 'c++-gcc)
                   ('clang 'c++-clang)
                   (_ (error "Invalid atcoder-tools-c++-compiler value: %S"
